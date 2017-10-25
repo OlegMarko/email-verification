@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'verified'
     ];
 
     /**
@@ -26,4 +26,33 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Has one to varification_
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function verificationToken()
+    {
+        return $this->hasOne(VerificationToken::class);
+    }
+
+    /**
+     * Check verified
+     *
+     * @return bool
+     */
+    public function hasVerifiedEmail()
+    {
+        return $this->verified;
+    }
+
+    /**
+     * @param $email
+     * @return mixed
+     */
+    public static function byEmail($email)
+    {
+        return static::where('email', $email);
+    }
 }
