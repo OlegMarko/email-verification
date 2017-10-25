@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRequestedVerificationEmail;
+use App\User;
 use App\VerificationToken;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -25,9 +27,15 @@ class VerificationController extends Controller
             ->withInfo('Email verification succesful. Please login again');
     }
 
-    public function resend()
+    /**
+     * Resend email
+     *
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function resend(User $user)
     {
-        $user = User::byEmail(request('email'))->firstOrFail();
+        $user = $user->byEmail(request('email'))->firstOrFail();
 
         if($user->hasVerifiedEmail()) {
             return redirect('/home');

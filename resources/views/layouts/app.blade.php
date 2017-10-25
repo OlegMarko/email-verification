@@ -71,6 +71,19 @@
             </div>
         </nav>
 
+        <div class="text-center" style="margin-bottom: 25px;">
+            @if(session('info'))
+                <span class="alert alert-info">
+                    {!! session('info') !!}
+                </span>
+            @endif
+            @if(session('error'))
+                <span class="alert alert-danger">
+                    {!! session('error') !!}
+                </span>
+            @endif
+        </div>
+
         @yield('content')
     </div>
 
